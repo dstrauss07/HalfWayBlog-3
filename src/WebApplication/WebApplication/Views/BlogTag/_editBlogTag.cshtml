@@ -1,0 +1,14 @@
+﻿@model BlogLibrary.BlogTag
+
+<form asp-action="@ViewData["Action"]">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input hidden asp-for="BlogTagId"/>
+    <div class="form-group">
+        <label asp-for="BlogTagName" class="control-label"></label>
+        <input asp-for="BlogTagName" class="form-control" />
+        <span asp-validation-for="BlogTagName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="@ViewData["Action"]" class="btn btn-primary" />
+    </div>
+</form>

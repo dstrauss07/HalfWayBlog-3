@@ -36,6 +36,8 @@ namespace WebApplication
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddScoped<IAuthorRepository, AuthorEFRepository>();
+            services.AddScoped<IBlogPostRepository, BlogPostEFRepository>();
+            services.AddScoped<IBlogTagRepository, BlogTagEfRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

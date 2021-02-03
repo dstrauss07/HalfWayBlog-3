@@ -7,46 +7,46 @@ using System;
 
 namespace WebApplication.Controllers
 {
-    public class AuthorController : Controller
+    public class BlogPostController : Controller
     {
-        private readonly IAuthorRepository _authorRepository;
+        private readonly IBlogPostRepository _blogPostRepository;
 
-        public AuthorController(IAuthorRepository authorRepository)
+        public BlogPostController(IBlogPostRepository blogPostRepository)
         {
-            _authorRepository = authorRepository;
+            _blogPostRepository = blogPostRepository;
         }
         // GET: AuthorController
         public async Task<ActionResult> Index()
         {
-            var listOfAuthors = await _authorRepository.ListAllAsync();
-            return View(listOfAuthors);
+            var listOfBlogPosts = await _blogPostRepository.ListAllAsync();
+            return View(listOfBlogPosts);
         }
 
         // GET: AuthorController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var authorDetails = await _authorRepository.GetByIdAsync(id);
-            return View(authorDetails);
+            var blogPostDetails = await _blogPostRepository.GetByIdAsync(id);
+            return View(blogPostDetails);
         }
 
         // GET: AuthorController/Create
         public ActionResult Create()
         {
-            return View(new Author());
+            return View(new BlogPost());
         }
 
         // POST: AuthorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Author newAuthor, IFormCollection collection)
+        public async Task<IActionResult> Create(BlogPost newBlogPost, IFormCollection collection)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(newAuthor);
+                    return View(newBlogPost);
                 }
-                await _authorRepository.AddAsync(newAuthor);
+                await _blogPostRepository.AddAsync(newBlogPost);
                 return RedirectToAction(nameof(Index));
 
             }
@@ -54,43 +54,43 @@ namespace WebApplication.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
-            return View(newAuthor);
+            return View(newBlogPost);
         }
 
         // GET: AuthorController/Edit/5
 
         public async Task<IActionResult> Edit(int id)
         {
-            var authorToEdit = await _authorRepository.GetByIdAsync(id);
-            return View(authorToEdit);
+            var blogPostToEdit = await _blogPostRepository.GetByIdAsync(id);
+            return View(blogPostToEdit);
         }
 
         // POST: AuthorController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Author editedAuthor, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, BlogPost editedBlogPost, IFormCollection collection)
         {
             if (!ModelState.IsValid)
             {
-                return View(editedAuthor);
+                return View(editedBlogPost);
             }
             try
             {
-                await _authorRepository.UpdateAsync(editedAuthor);
+                await _blogPostRepository.UpdateAsync(editedBlogPost);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
                 //todo log exception
             }
-            return View(editedAuthor);
+            return View(editedBlogPost);
         }
 
         // GET: AuthorController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var authorToDelete = await _authorRepository.GetByIdAsync(id);
-            return View(authorToDelete);
+            var blogPostToDelete = await _blogPostRepository.GetByIdAsync(id);
+            return View(blogPostToDelete);
         }
 
         // POST: AuthorController/Delete/5
@@ -100,14 +100,14 @@ namespace WebApplication.Controllers
         {
             try
             {
-                var deletedAuthor = await _authorRepository.GetByIdAsync(id);
-                await _authorRepository.DeleteAsync(deletedAuthor);
+                var deletedBlogPost = await _blogPostRepository.GetByIdAsync(id);
+                await _blogPostRepository.DeleteAsync(deletedBlogPost);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                var notDeletedAuthor = await _authorRepository.GetByIdAsync(id);
-                return View(notDeletedAuthor);
+                var notDeletedBlogPost = await _blogPostRepository.GetByIdAsync(id);
+                return View(notDeletedBlogPost);
             }
         }
     }

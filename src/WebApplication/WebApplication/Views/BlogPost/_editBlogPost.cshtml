@@ -1,0 +1,24 @@
+﻿@model BlogLibrary.BlogPost
+
+<form asp-action="@ViewData["Action"]">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input hidden asp-for="BlogPostId"/>
+    <div class="form-group">
+        <label asp-for="BlogPostTitle" class="control-label"></label>
+        <input asp-for="BlogPostTitle" class="form-control" />
+        <span asp-validation-for="BlogPostTitle" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BlogText" class="control-label"></label>
+        <input asp-for="BlogText" class="form-control" />
+        <span asp-validation-for="BlogText" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AuthorId" class="control-label"></label>
+        <input asp-for="AuthorId" class="form-control" />
+        <span asp-validation-for="AuthorId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="@ViewData["Action"]" class="btn btn-primary" />
+    </div>
+</form>
