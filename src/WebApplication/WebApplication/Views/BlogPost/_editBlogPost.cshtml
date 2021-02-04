@@ -1,22 +1,24 @@
-﻿@model BlogLibrary.BlogPost
+﻿@using BlogLibrary;
+@using WebApplication.ViewModels;
+@model PostEditViewModel;
 
 <form asp-action="@ViewData["Action"]">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input hidden asp-for="BlogPostId"/>
+    <input hidden asp-for=@Model.BlogPost.BlogPostId />
     <div class="form-group">
-        <label asp-for="BlogPostTitle" class="control-label"></label>
-        <input asp-for="BlogPostTitle" class="form-control" />
-        <span asp-validation-for="BlogPostTitle" class="text-danger"></span>
+        <label asp-for=@Model.BlogPost.BlogPostTitle class="control-label"></label>
+        <input asp-for=@Model.BlogPost.BlogPostTitle class="form-control" />
+        <span asp-validation-for=@Model.BlogPost.BlogPostTitle class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="BlogText" class="control-label"></label>
-        <input asp-for="BlogText" class="form-control" />
-        <span asp-validation-for="BlogText" class="text-danger"></span>
+        <label asp-for=@Model.BlogPost.BlogText class="control-label"></label>
+        <input asp-for=@Model.BlogPost.BlogText class="form-control" />
+        <span asp-validation-for=@Model.BlogPost.BlogText class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="AuthorId" class="control-label"></label>
-        <input asp-for="AuthorId" class="form-control" />
-        <span asp-validation-for="AuthorId" class="text-danger"></span>
+        <label asp-for=@Model.BlogPost.AuthorId class="control-label"></label>
+        <input asp-for=@Model.BlogPost.AuthorId class="form-control" />
+        <span asp-validation-for=@Model.BlogPost.AuthorId class="text-danger"></span>
     </div>
     <div class="form-group">
         <input type="submit" value="@ViewData["Action"]" class="btn btn-primary" />

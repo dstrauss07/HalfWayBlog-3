@@ -4,35 +4,53 @@ using BlogLibrary;
 using DataAccessLayer.Interfaces;
 using System.Threading.Tasks;
 using System;
+using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
 {
     public class BlogPostController : Controller
     {
         private readonly IBlogPostRepository _blogPostRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IBlogTagRepository _blogTagRepository;
 
-        public BlogPostController(IBlogPostRepository blogPostRepository)
+        public BlogPostController(IBlogPostRepository blogPostRepository, IAuthorRepository authorRepository, IBlogTagRepository blogTagRepository)
         {
             _blogPostRepository = blogPostRepository;
+            _authorRepository = authorRepository;
+            _blogTagRepository = blogTagRepository;
         }
         // GET: AuthorController
         public async Task<ActionResult> Index()
         {
-            var listOfBlogPosts = await _blogPostRepository.ListAllAsync();
-            return View(listOfBlogPosts);
+            PostListViewModel myPostListViewModel = new PostListViewModel();
+            myPostListViewModel.BlogPosts = await _blogPostRepository.ListAllAsync();
+            myPostListViewModel.Authors = await _authorRepository.ListAllAsync();
+            myPostListViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
+
+            return View(myPostListViewModel);
         }
 
         // GET: AuthorController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var blogPostDetails = await _blogPostRepository.GetByIdAsync(id);
-            return View(blogPostDetails);
+            PostDetailViewModel myPostDetailViewModel = new PostDetailViewModel();
+            myPostDetailViewModel.BlogPost = await _blogPostRepository.GetByIdAsync(id);
+            int authorId = myPostDetailViewModel.BlogPost.AuthorId;
+            myPostDetailViewModel.Author = await _authorRepository.GetByIdAsync(authorId);
+            //TODO may redo this after reworking Tags
+            myPostDetailViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
+            return View(myPostDetailViewModel);
         }
 
         // GET: AuthorController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View(new BlogPost());
+            PostEditViewModel myPostEditViewModel = new PostEditViewModel();
+            myPostEditViewModel.BlogPost = new BlogPost();
+            myPostEditViewModel.Authors = await _authorRepository.ListAllAsync();
+            myPostEditViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
+            return View(myPostEditViewModel);
         }
 
         // POST: AuthorController/Create

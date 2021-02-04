@@ -1,5 +1,6 @@
-﻿@model IEnumerable<BlogLibrary.BlogPost>
-
+﻿@using BlogLibrary;
+@using WebApplication.ViewModels;
+@model PostListViewModel;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,41 +15,36 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BlogPostId)
+              Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BlogPostTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BlogText)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorId)
+               Author Name
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BlogPostId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BlogPostTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BlogText)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.BlogPostId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.BlogPostId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.BlogPostId })
-            </td>
-        </tr>
-}
+        @foreach (BlogPost blogPost in Model.BlogPosts)
+        {
+            <tr>
+                <td>
+                   @blogPost.BlogPostTitle
+                </td>
+                <td> 
+                   @foreach(Author author in Model.Authors)
+                   {
+                       if(@author.AuthorId  == @blogPost.AuthorId)
+                       {
+                           @author.AuthorName
+                       }
+                   }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = @blogPost.BlogPostId }) |
+                    @Html.ActionLink("Details", "Details", new { id = @blogPost.BlogPostId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = @blogPost.BlogPostId })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
