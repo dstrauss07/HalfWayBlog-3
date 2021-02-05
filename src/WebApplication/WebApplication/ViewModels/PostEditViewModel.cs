@@ -12,5 +12,6 @@ namespace WebApplication.ViewModels
         public Author Author { get; set; }
         public IEnumerable<Author> Authors { get; set; }
         public IEnumerable<BlogTag> BlogTags { get; set; }
+        public List<BlogTagApplied> BlogTagsApplied { get; set; }
     }
 }

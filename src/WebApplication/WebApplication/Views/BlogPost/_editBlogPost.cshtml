@@ -16,10 +16,29 @@
         <span asp-validation-for=@Model.BlogPost.BlogText class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for=@Model.BlogPost.AuthorId class="control-label"></label>
-        <input asp-for=@Model.BlogPost.AuthorId class="form-control" />
+        <label asp-for=@Model.Author.AuthorName class="control-label"></label>
+        <select asp-for=@Model.BlogPost.AuthorId class="form-control">
+            @foreach (Author author in Model.Authors)
+            {
+                <option value=@author.AuthorId>@author.AuthorName</option>
+            }
+        </select>
         <span asp-validation-for=@Model.BlogPost.AuthorId class="text-danger"></span>
     </div>
+    <div class="form-group">
+        @{int i = 0;}
+        @foreach (BlogTag blogTag in Model.BlogTags)
+        { 
+            @*@if(Model.BlogTagsApplied[i]!= null)
+                {
+                    i++;
+                }*@
+            
+            <input asp-for=@Model.BlogTagsApplied[i] type="checkbox" id=@blogTag.BlogTagId name=@blogTag.BlogTagId value=@blogTag />
+            <label for=@blogTag.BlogTagId>@blogTag.BlogTagName</label><br>
+        }
+    </div>
+
     <div class="form-group">
         <input type="submit" value="@ViewData["Action"]" class="btn btn-primary" />
     </div>

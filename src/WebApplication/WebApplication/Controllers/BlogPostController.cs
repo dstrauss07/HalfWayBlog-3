@@ -13,12 +13,14 @@ namespace WebApplication.Controllers
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly IBlogTagRepository _blogTagRepository;
+        private readonly IBlogTagAppliedRepository _blogTagAppliedRepository;
 
-        public BlogPostController(IBlogPostRepository blogPostRepository, IAuthorRepository authorRepository, IBlogTagRepository blogTagRepository)
+        public BlogPostController(IBlogPostRepository blogPostRepository, IAuthorRepository authorRepository, IBlogTagRepository blogTagRepository, IBlogTagAppliedRepository blogTagAppliedRepository)
         {
             _blogPostRepository = blogPostRepository;
             _authorRepository = authorRepository;
             _blogTagRepository = blogTagRepository;
+            _blogTagAppliedRepository = blogTagAppliedRepository;
         }
         // GET: AuthorController
         public async Task<ActionResult> Index()
@@ -50,21 +52,28 @@ namespace WebApplication.Controllers
             myPostEditViewModel.BlogPost = new BlogPost();
             myPostEditViewModel.Authors = await _authorRepository.ListAllAsync();
             myPostEditViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
+     //       myPostEditViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
             return View(myPostEditViewModel);
         }
 
         // POST: AuthorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BlogPost newBlogPost, IFormCollection collection)
+        public async Task<IActionResult> Create(PostEditViewModel newBlogPostModel, IFormCollection collection)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(newBlogPost);
+                    return View(newBlogPostModel);
                 }
+                BlogPost newBlogPost = newBlogPostModel.BlogPost;
                 await _blogPostRepository.AddAsync(newBlogPost);
+                foreach(BlogTag blogTag in newBlogPostModel.BlogTags)
+                {
+                    Console.WriteLine(blogTag);
+                }
+
                 return RedirectToAction(nameof(Index));
 
             }
@@ -72,28 +81,32 @@ namespace WebApplication.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
-            return View(newBlogPost);
+            return View(newBlogPostModel);
         }
 
         // GET: AuthorController/Edit/5
 
         public async Task<IActionResult> Edit(int id)
         {
-            var blogPostToEdit = await _blogPostRepository.GetByIdAsync(id);
-            return View(blogPostToEdit);
+            PostEditViewModel myPostEditViewModel = new PostEditViewModel();
+            myPostEditViewModel.Authors = await _authorRepository.ListAllAsync();
+            myPostEditViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
+            myPostEditViewModel.BlogPost = await _blogPostRepository.GetByIdAsync(id);
+            return View(myPostEditViewModel);
         }
 
         // POST: AuthorController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, BlogPost editedBlogPost, IFormCollection collection)
+        public async Task<IActionResult> Edit(PostEditViewModel newBlogPostModel, IFormCollection collection)
         {
             if (!ModelState.IsValid)
             {
-                return View(editedBlogPost);
+                return View(newBlogPostModel);
             }
             try
             {
+                BlogPost editedBlogPost = newBlogPostModel.BlogPost;
                 await _blogPostRepository.UpdateAsync(editedBlogPost);
                 return RedirectToAction(nameof(Index));
             }
@@ -101,14 +114,19 @@ namespace WebApplication.Controllers
             {
                 //todo log exception
             }
-            return View(editedBlogPost);
+            return View(newBlogPostModel);
         }
 
         // GET: AuthorController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var blogPostToDelete = await _blogPostRepository.GetByIdAsync(id);
-            return View(blogPostToDelete);
+            PostDetailViewModel myPostDetailViewModel = new PostDetailViewModel();
+            myPostDetailViewModel.BlogPost = await _blogPostRepository.GetByIdAsync(id);
+            int authorId = myPostDetailViewModel.BlogPost.AuthorId;
+            myPostDetailViewModel.Author = await _authorRepository.GetByIdAsync(authorId);
+            //TODO may redo this after reworking Tags
+            myPostDetailViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
+            return View(myPostDetailViewModel);
         }
 
         // POST: AuthorController/Delete/5

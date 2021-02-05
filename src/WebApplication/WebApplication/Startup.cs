@@ -38,6 +38,7 @@ namespace WebApplication
             services.AddScoped<IAuthorRepository, AuthorEFRepository>();
             services.AddScoped<IBlogPostRepository, BlogPostEFRepository>();
             services.AddScoped<IBlogTagRepository, BlogTagEfRepository>();
+            services.AddScoped<IBlogTagAppliedRepository, BlogTagAppliedEfRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

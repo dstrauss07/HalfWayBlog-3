@@ -10,6 +10,7 @@ namespace DataAccessLayer
         public virtual DbSet<Author> Author { get; set; }
         public virtual DbSet<BlogPost> BlogPost { get; set; }
         public virtual DbSet<BlogTag> BlogTag { get; set; }
+        public virtual DbSet<BlogTagApplied> BlogTagApplied { get; set; }
     }
 }
 

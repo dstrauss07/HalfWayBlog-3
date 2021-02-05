@@ -10,7 +10,7 @@ namespace BlogLibrary
         public int BlogPostId { get; set; }
         public string BlogPostTitle { get; set; }
         public string BlogText { get; set; }
-        public IEnumerable<BlogTag> BlogTags { get; set; }
+        public IEnumerable<BlogTagApplied> BlogTags { get; set; }
 
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
