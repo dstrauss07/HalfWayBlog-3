@@ -9,7 +9,7 @@ namespace BlogLibrary
         public int BlogTagAppliedId { get; set; }
         [ForeignKey("BlogPost")]
         public int BlogPostId { get; set; }
-        public BlogPost Author { get; set; }
+        public BlogPost BlogPost { get; set; }
         [ForeignKey ("BlogTag")]
         public int BlogTagId { get; set; }
         public BlogTag BlogTag { get; set; }

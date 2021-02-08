@@ -8,5 +8,7 @@ namespace BlogLibrary
         [Key]
         public int BlogTagId { get; set; }
         public string BlogTagName { get; set; }
+
+        public bool Checked { get; set; }
     }
 }

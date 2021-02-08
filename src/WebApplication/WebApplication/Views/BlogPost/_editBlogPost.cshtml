@@ -26,16 +26,13 @@
         <span asp-validation-for=@Model.BlogPost.AuthorId class="text-danger"></span>
     </div>
     <div class="form-group">
-        @{int i = 0;}
-        @foreach (BlogTag blogTag in Model.BlogTags)
-        { 
-            @*@if(Model.BlogTagsApplied[i]!= null)
-                {
-                    i++;
-                }*@
-            
-            <input asp-for=@Model.BlogTagsApplied[i] type="checkbox" id=@blogTag.BlogTagId name=@blogTag.BlogTagId value=@blogTag />
-            <label for=@blogTag.BlogTagId>@blogTag.BlogTagName</label><br>
+        @for (var i = 0; i < Model.BlogTags.Count; i++)
+        {
+            <input hidden asp-for=@Model.BlogTags[i].BlogTagId />
+            <input hidden asp-for=@Model.BlogTags[i].BlogTagName />
+            <input type="checkbox" id="@Model.BlogTags[i].Checked" asp-for="@Model.BlogTags[i].Checked" checked="@Model.BlogTags[i].Checked" value="true" )>
+            <input hidden asp-for="@Model.BlogTags[i].Checked" value="false" />
+            <label for="@Model.BlogTags[i].BlogTagId">@Model.BlogTags[i].BlogTagName</label><br>
         }
     </div>
 

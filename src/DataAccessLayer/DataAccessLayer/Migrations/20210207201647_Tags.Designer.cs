@@ -3,14 +3,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    partial class BlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210207201647_Tags")]
+    partial class Tags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,7 +114,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("BlogLibrary.BlogTagApplied", b =>
                 {
-                    b.HasOne("BlogLibrary.BlogPost", "BlogPost")
+                    b.HasOne("BlogLibrary.BlogPost", "Author")
                         .WithMany("BlogTags")
                         .HasForeignKey("BlogPostId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -124,7 +126,7 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BlogPost");
+                    b.Navigation("Author");
 
                     b.Navigation("BlogTag");
                 });

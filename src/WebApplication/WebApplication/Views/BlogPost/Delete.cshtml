@@ -1,4 +1,5 @@
-﻿@using WebApplication.ViewModels;
+﻿@using BlogLibrary;
+@using WebApplication.ViewModels;
 @model PostDetailViewModel;
 
 @{
@@ -36,6 +37,16 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Author.AuthorName)
+        </dd>
+        <dt class="col-sm-2">
+            Blog Tags
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (BlogTag b in Model.BlogTags)
+            {
+                @b.BlogTagName;
+                @:&#44;
+            }
         </dd>
     </dl>
 

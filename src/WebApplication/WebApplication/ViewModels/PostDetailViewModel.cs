@@ -10,6 +10,6 @@ namespace WebApplication.ViewModels
     {
         public BlogPost BlogPost { get; set; }
         public Author Author { get; set; }
-        public IEnumerable<BlogTag> BlogTags { get; set; }
+        public List<BlogTag> BlogTags { get; set; }
     }
 }

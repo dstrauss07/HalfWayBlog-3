@@ -20,31 +20,49 @@
             <th>
                Author Name
             </th>
-            <th></th>
+            <th>
+                Tags
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (BlogPost blogPost in Model.BlogPosts)
         {
-            <tr>
-                <td>
-                   @blogPost.BlogPostTitle
-                </td>
-                <td> 
-                   @foreach(Author author in Model.Authors)
-                   {
-                       if(@author.AuthorId  == @blogPost.AuthorId)
-                       {
-                           @author.AuthorName
-                       }
-                   }
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = @blogPost.BlogPostId }) |
-                    @Html.ActionLink("Details", "Details", new { id = @blogPost.BlogPostId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = @blogPost.BlogPostId })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @blogPost.BlogPostTitle
+            </td>
+            <td>
+                @foreach (Author author in Model.Authors)
+                {
+                    if (@author.AuthorId == @blogPost.AuthorId)
+                    {
+                        @author.AuthorName
+                    }
+                }
+            </td>
+            <td>
+                @foreach (BlogTagApplied blogTagApplied in Model.BlogTagsApplied)
+                {
+                    if (@blogTagApplied.BlogPostId == @blogPost.BlogPostId)
+                    {
+                        @foreach (BlogTag blogTag in Model.BlogTags)
+                        {
+                            if (@blogTagApplied.BlogTagId == blogTag.BlogTagId)
+                            {
+                                @blogTag.BlogTagName
+                                @:&#44;
+                            }
+                        }
+                    }
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = @blogPost.BlogPostId }) |
+                @Html.ActionLink("Details", "Details", new { id = @blogPost.BlogPostId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = @blogPost.BlogPostId })
+            </td>
+        </tr>
         }
     </tbody>
 </table>
