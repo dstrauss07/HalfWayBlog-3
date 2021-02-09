@@ -20,13 +20,11 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
     <script type="text/javascript">
-        ClassicEditor
-            .create(document.querySelector('#blogPostTextArea'))
-            .catch(error => {
-                console.error(error);
-            });
+        CKEDITOR.replace('blogPostTextArea', {
+            customConfig: '/js/CustomConfig.js'
+        });
     </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
