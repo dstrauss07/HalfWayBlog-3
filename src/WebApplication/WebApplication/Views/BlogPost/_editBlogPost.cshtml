@@ -5,34 +5,42 @@
 <form asp-action="@ViewData["Action"]">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input hidden asp-for=@Model.BlogPost.BlogPostId />
-    <div class="form-group">
-        <label asp-for=@Model.BlogPost.BlogPostTitle class="control-label"></label>
-        <input asp-for=@Model.BlogPost.BlogPostTitle class="form-control" />
-        <span asp-validation-for=@Model.BlogPost.BlogPostTitle class="text-danger"></span>
+    <div class="row">
+        <div class="form-group col-md-8 col-sm-12">
+            <label class="control-label">Title</label>
+            <input asp-for=@Model.BlogPost.BlogPostTitle class="form-control" />
+            <span asp-validation-for=@Model.BlogPost.BlogPostTitle class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-12">
+            <label class="control-label">Author</label>
+            <select asp-for=@Model.BlogPost.AuthorId class="form-control">
+                @foreach (Author author in Model.Authors)
+                {
+                    <option value=@author.AuthorId>@author.AuthorName</option>
+                }
+            </select>
+            <span asp-validation-for=@Model.BlogPost.AuthorId class="text-danger"></span>
+        </div>
     </div>
+
     <div class="form-group">
-        <label asp-for=@Model.BlogPost.BlogText class="control-label"></label>
-        <input asp-for=@Model.BlogPost.BlogText class="form-control" />
+        <textarea id="blogPostTextArea" asp-for=@Model.BlogPost.BlogText class="form-control"> </textarea>
         <span asp-validation-for=@Model.BlogPost.BlogText class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for=@Model.Author.AuthorName class="control-label"></label>
-        <select asp-for=@Model.BlogPost.AuthorId class="form-control">
-            @foreach (Author author in Model.Authors)
-            {
-                <option value=@author.AuthorId>@author.AuthorName</option>
-            }
-        </select>
-        <span asp-validation-for=@Model.BlogPost.AuthorId class="text-danger"></span>
-    </div>
-    <div class="form-group">
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <label class="control-label">Tags</label>
+        </div>
         @for (var i = 0; i < Model.BlogTags.Count; i++)
         {
-            <input hidden asp-for=@Model.BlogTags[i].BlogTagId />
-            <input hidden asp-for=@Model.BlogTags[i].BlogTagName />
-            <input type="checkbox" id="@Model.BlogTags[i].Checked" asp-for="@Model.BlogTags[i].Checked" checked="@Model.BlogTags[i].Checked" value="true" )>
-            <input hidden asp-for="@Model.BlogTags[i].Checked" value="false" />
-            <label for="@Model.BlogTags[i].BlogTagId">@Model.BlogTags[i].BlogTagName</label><br>
+            <div class="col-sm-6 col-md-4 col-lg-2 bg-light">
+                <input hidden asp-for=@Model.BlogTags[i].BlogTagId />
+                <input hidden asp-for=@Model.BlogTags[i].BlogTagName />
+                <input type="checkbox" id="@Model.BlogTags[i].Checked" asp-for="@Model.BlogTags[i].Checked" checked="@Model.BlogTags[i].Checked" value="true" )>
+                <input hidden asp-for="@Model.BlogTags[i].Checked" value="false" />
+                <label for="@Model.BlogTags[i].BlogTagId">@Model.BlogTags[i].BlogTagName</label><br>
+            </div>
         }
     </div>
 

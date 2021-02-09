@@ -8,11 +8,9 @@
 }
 
 <h1>Create</h1>
-
-<h4>Post</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         @Html.Partial("_editBlogPost", Model, ViewData)
     </div>
 </div>
@@ -22,5 +20,13 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+    <script type="text/javascript">
+        ClassicEditor
+            .create(document.querySelector('#blogPostTextArea'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
