@@ -20,11 +20,5 @@
 </div>
 
 @section Scripts {
-    <script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('blogPostTextArea', {
-            customConfig: '/js/CustomConfig.js'
-        });
-    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -10,6 +10,7 @@ using DataAccessLayer;
 using DataAccessLayer.EFRepos;
 using DataAccessLayer.Interfaces;
 
+
 namespace WebApplication
 {
     public class Startup
@@ -17,6 +18,7 @@ namespace WebApplication
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
