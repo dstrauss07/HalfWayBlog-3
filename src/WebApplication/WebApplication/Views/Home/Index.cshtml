@@ -1,8 +1,27 @@
-﻿@{
+﻿@using BlogLibrary;
+@using WebApplication.ViewModels;
+@model HomeViewModel;
+@{
     ViewData["Title"] = "Home Page";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h2 class="bg-dark text-light">Half Way To Mediocre</h2>
+    <div>
+        <h3 class="text-danger">@Model.BlogPost.BlogPostTitle</h3>
+        @foreach (Author author in Model.Authors)
+        {
+            if (@author.AuthorId == @Model.BlogPost.AuthorId)
+            {
+                <h6>@author.AuthorName</h6>
+            }
+        }
+        <hr />
+        <div>
+            @Html.Raw(@Model.BlogPost.BlogText)
+        </div>
+        <hr />
+        <
+    </div>
 </div>

@@ -29,7 +29,8 @@ namespace WebApplication.Controllers
         public async Task<ActionResult> Index()
         {
             PostListViewModel myPostListViewModel = new PostListViewModel();
-            myPostListViewModel.BlogPosts = await _blogPostRepository.ListAllAsync();
+            IEnumerable<BlogPost> blogPostsToAdd = await _blogPostRepository.ListAllAsync();
+            myPostListViewModel.BlogPosts = blogPostsToAdd.ToList();
             myPostListViewModel.Authors = await _authorRepository.ListAllAsync();
             myPostListViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myPostListViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();

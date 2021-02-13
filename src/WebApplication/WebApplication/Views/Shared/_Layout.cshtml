@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebApplication</title>
+    <title>@ViewData["Title"]Halfway To Mediocre </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="https://cdn.tiny.cloud/1/ns4wnol5yqzwb512ssw98j2o2xvn6bd2qsvzftgm73c0bmzp/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
@@ -11,7 +11,7 @@
         tinymce.init({
             selector: '#blogPostTextArea',
             plugins: [
-                'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+                'advlist autolink link image lists charmap print preview hr anchor pagebreak autoresize',
                 'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
                 'table emoticons template paste help'
             ],
@@ -23,6 +23,7 @@
             },
             menubar: 'favs file edit view insert format tools table help',
             content_css: 'css/content.css',
+            toolbar_sticky: true,
             images_upload_handler: function (blobInfo, success, failure) {
 
                 // Create a JSON payload containing the file name and file bytes and serialize it to a string
@@ -50,19 +51,13 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Halfway To Mediocre</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Index">Author</a>
                         </li>
@@ -86,7 +81,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - WebApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Halfway to Mediocre - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

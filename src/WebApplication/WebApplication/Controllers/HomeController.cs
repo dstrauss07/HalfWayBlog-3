@@ -1,27 +1,43 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BlogLibrary;
+using DataAccessLayer.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using WebApplication.Models;
+using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IBlogPostRepository _blogPostRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IBlogTagRepository _blogTagRepository;
+        private readonly IBlogTagAppliedRepository _blogTagAppliedRepository;
+        public HomeController(ILogger<HomeController> logger, IBlogPostRepository blogPostRepository, IAuthorRepository authorRepository, IBlogTagRepository blogTagRepository, IBlogTagAppliedRepository blogTagAppliedRepository)
         {
             _logger = logger;
+            _blogPostRepository = blogPostRepository;
+            _authorRepository = authorRepository;
+            _blogTagRepository = blogTagRepository;
+            _blogTagAppliedRepository = blogTagAppliedRepository;
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult> Index(int id)
         {
-            return View();
+            HomeViewModel myHomeViewModel = new HomeViewModel();
+            IEnumerable<BlogPost> blogPostsToAdd = await _blogPostRepository.ListAllAsync();
+            myHomeViewModel.BlogPosts = blogPostsToAdd.ToList();
+            myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
+            myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
+            myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
+            myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts[0];
+            return View(myHomeViewModel);
         }
 
         public IActionResult Privacy()

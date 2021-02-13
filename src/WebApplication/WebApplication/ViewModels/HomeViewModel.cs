@@ -6,8 +6,9 @@ using BlogLibrary;
 
 namespace WebApplication.ViewModels
 {
-    public class PostListViewModel
+    public class HomeViewModel
     {
+        public BlogPost BlogPost { get; set; }
         public List<BlogPost> BlogPosts { get; set; }
         public IEnumerable<Author> Authors { get; set; }
         public IEnumerable<BlogTag> BlogTags { get; set; }
