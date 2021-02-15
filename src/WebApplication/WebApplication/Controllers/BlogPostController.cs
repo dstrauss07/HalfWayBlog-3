@@ -78,6 +78,8 @@ namespace WebApplication.Controllers
                     return View(newBlogPostModel);
                 }
                 BlogPost newBlogPost = newBlogPostModel.BlogPost;
+                newBlogPost.PostDate = System.DateTime.Now;
+                newBlogPost.ModifiedDate = System.DateTime.Now;
                 await _blogPostRepository.AddAsync(newBlogPost);
                 foreach(BlogTag blogTag in newBlogPostModel.BlogTags)
                 {
@@ -131,6 +133,7 @@ namespace WebApplication.Controllers
             try
             {
                 BlogPost editedBlogPost = newBlogPostModel.BlogPost;
+                editedBlogPost.ModifiedDate = System.DateTime.Now;
                 await _blogPostRepository.UpdateAsync(editedBlogPost);
                 await _blogTagAppliedRepository.GetAllByPostId(editedBlogPost.BlogPostId, true);
                 foreach (BlogTag blogTag in newBlogPostModel.BlogTags)

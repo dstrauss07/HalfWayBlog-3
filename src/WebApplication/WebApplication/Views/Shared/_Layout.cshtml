@@ -45,6 +45,37 @@
                 })
             }
         });
+        tinymce.init({
+            selector: '#mainImageUpload',
+            plugins: [
+                'image'
+            ],
+            menubar:false,
+            statusbar: false,
+            toolbar: 'image',
+            content_css: 'css/content.css',
+                readonly : 1,
+            images_upload_handler: function (blobInfo, success, failure) {
+
+                // Create a JSON payload containing the file name and file bytes and serialize it to a string
+                var data = JSON.stringify({ fileBytes: blobInfo.base64(), fileName: blobInfo.blob().name });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/images',
+                    data: data,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (result) {
+                        success(result.imageUrl);
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        failure(err.message);
+                    }
+                })
+            }
+        });
     </script>
 </head>
 <body>
@@ -73,7 +104,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

@@ -28,7 +28,7 @@ namespace WebApplication.Controllers
             _blogTagAppliedRepository = blogTagAppliedRepository;
         }
 
-        public async Task<ActionResult> Index(int id)
+        public async Task<ActionResult> Index(int id = 0)
         {
             HomeViewModel myHomeViewModel = new HomeViewModel();
             IEnumerable<BlogPost> blogPostsToAdd = await _blogPostRepository.ListAllAsync();
@@ -36,7 +36,44 @@ namespace WebApplication.Controllers
             myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
             myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
-            myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts[0];
+            if (myHomeViewModel.BlogPosts.Count == 0)
+            {
+                BlogPost emptyBlogPost = new BlogPost();
+                myHomeViewModel.BlogPosts.Add(emptyBlogPost);
+            }
+            if (id == 0)
+            {
+                myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts[0];
+                myHomeViewModel.BlogIndex = 0;
+            }
+            else
+            {
+                myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts.FirstOrDefault(item => item.BlogPostId == id);
+                myHomeViewModel.BlogIndex = myHomeViewModel.BlogPosts.FindIndex(item => item.BlogPostId == id);
+            }
+
+            return View(myHomeViewModel);
+        }
+
+        public async Task<ActionResult> Detail(int id = 0)
+        {
+            HomeViewModel myHomeViewModel = new HomeViewModel();
+            IEnumerable<BlogPost> blogPostsToAdd = await _blogPostRepository.ListAllAsync();
+            myHomeViewModel.BlogPosts = blogPostsToAdd.ToList();
+            myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
+            myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
+            myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
+            if (id == 0)
+            {
+                myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts[0];
+                myHomeViewModel.BlogIndex = 0;
+            }
+            else
+            {
+                myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts.FirstOrDefault(item => item.BlogPostId == id);
+                myHomeViewModel.BlogIndex = myHomeViewModel.BlogPosts.FindIndex(item => item.BlogPostId == id);
+            }
+
             return View(myHomeViewModel);
         }
 

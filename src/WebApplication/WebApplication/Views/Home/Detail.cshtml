@@ -43,12 +43,12 @@
             <hr />
             @if (Model.BlogIndex > 0)
             {
-                @Html.ActionLink("Previous", "Detail", new { id = Model.BlogPosts[Model.BlogIndex - 1].BlogPostId })
+                @Html.ActionLink("Previous", "Index", new { id = Model.BlogPosts[Model.BlogIndex - 1].BlogPostId })
             }
             <span class="pl-5"></span>
             @if (Model.BlogIndex < (Model.BlogPosts.Count - 1))
             {
-                @Html.ActionLink("Next", "Detail", new { id = Model.BlogPosts[Model.BlogIndex + 1].BlogPostId })
+                @Html.ActionLink("Next", "Index", new { id = Model.BlogPosts[Model.BlogIndex + 1].BlogPostId })
             }
 
             <h3>Recent Articles</h3>
@@ -58,7 +58,7 @@
                 {
                     j++;
                 }
-                @Html.ActionLink(Model.BlogPosts[j].BlogPostTitle, "Detail", new { id = Model.BlogPosts[j].BlogPostId })
+                @Html.ActionLink(Model.BlogPosts[j].BlogPostTitle, "Index", new { id = Model.BlogPosts[j].BlogPostId })
                 @:&#124;
                 j++;
             }
