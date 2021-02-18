@@ -27,8 +27,8 @@
             images_upload_handler: function (blobInfo, success, failure) {
 
                 // Create a JSON payload containing the file name and file bytes and serialize it to a string
-                var data = JSON.stringify({ fileBytes: blobInfo.base64(), fileName: blobInfo.blob().name });
-
+                var post_id = jQuery('#post_ID').val();
+                var data = JSON.stringify({ fileBytes: blobInfo.base64(), fileName: blobInfo.blob().name, isMain: false, imagePostId: post_id  });
                 $.ajax({
                     type: 'POST',
                     url: '/api/images',
@@ -54,11 +54,10 @@
             statusbar: false,
             toolbar: 'image',
             content_css: 'css/content.css',
-                readonly : 1,
             images_upload_handler: function (blobInfo, success, failure) {
-
                 // Create a JSON payload containing the file name and file bytes and serialize it to a string
-                var data = JSON.stringify({ fileBytes: blobInfo.base64(), fileName: blobInfo.blob().name });
+                var post_id = jQuery('#post_ID').val();
+                var data = JSON.stringify({ fileBytes: blobInfo.base64(), fileName: blobInfo.blob().name, isMain: true, imagePostId: post_id });
 
                 $.ajax({
                     type: 'POST',

@@ -14,7 +14,6 @@ using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
-
     [Route("api/images")]
     [ApiController]
     public class ImageController : Controller
@@ -23,22 +22,27 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult UploadImage(FileUploadModel upload)
         {
-
             if (upload == null) return null;
             if (new FileExtensionContentTypeProvider().TryGetContentType(upload.FileName, out var contentType))
             {
                 if (contentType == "image/gif" || contentType == "image/jpeg" || contentType == "image/png")
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                    String imgUrl = "wwwroot/images/" + upload.imagePostId.ToString() + "/";
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), imgUrl);
                     if (!System.IO.Directory.Exists(path))
                     {
                         System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                     }
                     var fileName = Path.GetFileName(upload.FileName).ToLower();
+                    if (upload.isMain)
+                    {
+                        string extension = fileName.Substring(fileName.IndexOf(@".") + 1);
+                        fileName = "Main." + extension;
+                    }
                     string imgPath = Path.Combine(path, fileName);
 
                     System.IO.File.WriteAllBytes(imgPath, upload.FileBytes);
-                    string imageUrl = "https://localhost:44381/images/" + fileName;
+                    string imageUrl = "https://localhost:44381/images/"+ upload.imagePostId.ToString() + "/" + fileName;
                     return Ok(new { imageUrl });
                 }
                 else

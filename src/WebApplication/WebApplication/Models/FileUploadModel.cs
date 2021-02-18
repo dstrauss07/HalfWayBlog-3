@@ -14,5 +14,11 @@ namespace WebApplication.Models
 
         [DataMember(Name = "fileBytes")]
         public byte[] FileBytes { get; set; }
+
+        [DataMember(Name = "isMain")]
+        public bool isMain { get; set; }
+
+        [DataMember(Name = "imagePostId")]
+        public int imagePostId { get; set; }
     }
 }

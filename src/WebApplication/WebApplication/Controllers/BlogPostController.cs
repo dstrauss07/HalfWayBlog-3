@@ -81,19 +81,8 @@ namespace WebApplication.Controllers
                 newBlogPost.PostDate = System.DateTime.Now;
                 newBlogPost.ModifiedDate = System.DateTime.Now;
                 await _blogPostRepository.AddAsync(newBlogPost);
-                foreach(BlogTag blogTag in newBlogPostModel.BlogTags)
-                {
-                    if(blogTag.Checked)
-                    {
-                        BlogTagApplied newBlogTagApplied = new BlogTagApplied();
-                        newBlogTagApplied.BlogTagId = blogTag.BlogTagId;
-                        newBlogTagApplied.BlogPostId = newBlogPost.BlogPostId;
-                   await _blogTagAppliedRepository.AddAsync(newBlogTagApplied);
-                    }
-                }
-
-                return RedirectToAction(nameof(Index));
-
+                var editId = newBlogPostModel.BlogPost.BlogPostId;
+                return RedirectToAction("Edit", new { id = editId });
             }
             catch (Exception ex)
             {

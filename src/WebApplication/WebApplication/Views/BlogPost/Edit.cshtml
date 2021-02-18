@@ -1,4 +1,5 @@
-﻿@using WebApplication.ViewModels;
+﻿@using BlogLibrary;
+@using WebApplication.ViewModels;
 @model PostEditViewModel;
 
 @{
@@ -7,8 +8,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-<hr />
 <div class="row">
     <div class="col-md-12">
         @Html.Partial("_editBlogPost", Model, ViewData)
