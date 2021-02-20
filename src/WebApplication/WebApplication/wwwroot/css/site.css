@@ -82,7 +82,7 @@ main{
 /* Text Area 
 ----------------------------------------------------------------------------------------*/
 
-#mainImageUpload{
-    width:50%;
-    margin:auto;
+.editImageCurrent{
+    width:50px;
+    height: auto;
 }

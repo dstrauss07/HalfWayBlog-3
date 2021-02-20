@@ -15,10 +15,13 @@
     <thead>
         <tr>
             <th>
-              Title
+                Title
             </th>
             <th>
-               Author Name
+                Author Name
+            </th>
+            <th>
+                Main Image
             </th>
             <th>
                 Tags
@@ -43,7 +46,7 @@
             </td>
             <td>
                 @{var blogPostImgUrl = "https://localhost:44381/" + blogPost.ImageUrl;}
-                <img src="@blogPostImgUrl" alt="Select an Image" />
+                <img style="height:50px;width:auto" src="@blogPostImgUrl" alt="Select an Image" />
             </td>
             <td>
                 @foreach (BlogTagApplied blogTagApplied in Model.BlogTagsApplied)

@@ -7,23 +7,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <dl class="row bg-light">
-        <dt class="col-sm-6">
+        <dt class="col-sm-4">
             Title
         </dt>
-        <dt class="col-sm-6">
+        <dt class="col-sm-4">
             Author
         </dt>
-        <dd class="col-sm-6">
+        <dt class="col-sm-4">
+            Main Image
+        </dt>
+        <dd class="col-sm-4">
             @Html.DisplayFor(model => model.BlogPost.BlogPostTitle)
         </dd>
-        <dd class="col-sm-6">
+        <dd class="col-sm-4">
             @Html.DisplayFor(model => model.Author.AuthorName)
         </dd>
+        <dd class="col-sm-4 bg-white">
+            @{var blogPostImgUrl = "https://localhost:44381/" + Model.BlogPost.ImageUrl;}
+            <img style="height:100px;width:auto" src="@blogPostImgUrl" alt="Select an Image" />
+        </dd>
+        <dt class="col-sm-12">
+            Blog Post
+        </dt>
         <dd class="col-sm-12 bg-white">
             @Html.Raw(Model.BlogPost.BlogText)
         </dd>
@@ -34,7 +43,8 @@
             @foreach (BlogTag b in Model.BlogTags)
             {
                 @b.BlogTagName
-                @:&#44;
+                @:&#124;
+
             }
         </dd>
         <dt class="col-sm-2">
@@ -44,7 +54,6 @@
             @Html.DisplayFor(model => model.BlogPost.BlogPostId)
         </dd>
     </dl>
-
     <form asp-action="Delete">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>

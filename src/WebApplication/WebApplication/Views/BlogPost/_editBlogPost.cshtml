@@ -6,29 +6,43 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input hidden id="post_ID" asp-for=@Model.BlogPost.BlogPostId />
     <div class="row">
-        <div class="form-group col-md-8 col-sm-12">
-            <label class="control-label">Title</label>
-            <input asp-for=@Model.BlogPost.BlogPostTitle class="form-control" />
-            <span asp-validation-for=@Model.BlogPost.BlogPostTitle class="text-danger"></span>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label">Title</label>
+                <input asp-for=@Model.BlogPost.BlogPostTitle class="form-control" />
+                <span asp-validation-for=@Model.BlogPost.BlogPostTitle class="text-danger"></span>
+            </div>
+            <div class="form-group ">
+                <label class="control-label">Author</label>
+                <select asp-for=@Model.BlogPost.AuthorId class="form-control">
+                    @foreach (Author author in Model.Authors)
+                    {
+                        <option value=@author.AuthorId>@author.AuthorName</option>
+                    }
+                </select>
+                <span asp-validation-for=@Model.BlogPost.AuthorId class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group row">
+                <div class="col-6">
+                    <label class="control-label">Current Image</label>
+                    <br />
+                    @{var blogPostImgUrl = "https://localhost:44381/" + @Model.BlogPost.ImageUrl;}
+                    <img style="width:100px;height:auto" src=@blogPostImgUrl alt="No Image Uploaded" />
+                </div>
+                <div class="col-6">
+                    <label class="control-label">Select New Image</label>
+                    <textarea id="mainImageUpload" asp-for=@Model.BlogPost.ImageUrl class="form-control"> </textarea>
+                </div>
+            </div>
+
         </div>
 
-        <div class="form-group col-md-4 col-sm-12">
-            <label class="control-label">Author</label>
-            <select asp-for=@Model.BlogPost.AuthorId class="form-control">
-                @foreach (Author author in Model.Authors)
-                {
-                    <option value=@author.AuthorId>@author.AuthorName</option>
-                }
-            </select>
-            <span asp-validation-for=@Model.BlogPost.AuthorId class="text-danger"></span>
-        </div>
+
     </div>
 
-    <div class="form-group">
-        <label class="control-label">Main Image</label>
-        @*<img src=@Model.BlogPost.ImageUrl alt="Select an Image"/>*@
-        <textarea id="mainImageUpload" asp-for=@Model.BlogPost.ImageUrl class="form-control"> </textarea>
-    </div>
+
 
     <div class="form-group">
         <label class="control-label">Blog Post</label>

@@ -8,6 +8,7 @@ using WebApplication.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
+using System.IO;
 
 namespace WebApplication.Controllers
 {
@@ -188,14 +189,19 @@ namespace WebApplication.Controllers
             try
             {
                 var deletedBlogPost = await _blogPostRepository.GetByIdAsync(id);
+                String postUrl = "wwwroot/images/" + deletedBlogPost.BlogPostId.ToString() + "/";
+                var DirectoryToDelete = Path.Combine(Directory.GetCurrentDirectory(), postUrl);
+                Directory.Delete(DirectoryToDelete, true);
                 await _blogPostRepository.DeleteAsync(deletedBlogPost);
                 await _blogTagAppliedRepository.GetAllByPostId(deletedBlogPost.BlogPostId, true);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
-                var notDeletedBlogPost = await _blogPostRepository.GetByIdAsync(id);
-                return View(notDeletedBlogPost);
+                Console.WriteLine(ex);
+                // var notDeletedBlogPost = await _blogPostRepository.GetByIdAsync(id);
+                //PostDetailViewModel myPostDetailViewModel = new PostDetailViewModel();
+             return await Delete(id);
             }
         }
 
