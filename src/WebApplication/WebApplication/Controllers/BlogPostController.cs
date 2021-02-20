@@ -123,6 +123,25 @@ namespace WebApplication.Controllers
             {
                 BlogPost editedBlogPost = newBlogPostModel.BlogPost;
                 editedBlogPost.ModifiedDate = System.DateTime.Now;
+                String blogUrlString = editedBlogPost.ImageUrl;
+                int startIndex = blogUrlString.IndexOf('=');
+                if(startIndex != -1)
+                {
+                    blogUrlString = blogUrlString.Substring(startIndex + 8);
+                    int endIndex = blogUrlString.IndexOf('"');
+                    blogUrlString = blogUrlString.Substring(0, endIndex);
+                    editedBlogPost.ImageUrl = blogUrlString;
+                }
+                startIndex = blogUrlString.IndexOf("<p>");
+                if (startIndex != -1)
+                {
+                    blogUrlString = blogUrlString.Substring(startIndex+3);
+                    int endIndex = blogUrlString.IndexOf("</p>");
+                    blogUrlString = blogUrlString.Substring(0, endIndex);
+                    editedBlogPost.ImageUrl = blogUrlString;
+                }
+
+
                 await _blogPostRepository.UpdateAsync(editedBlogPost);
                 await _blogTagAppliedRepository.GetAllByPostId(editedBlogPost.BlogPostId, true);
                 foreach (BlogTag blogTag in newBlogPostModel.BlogTags)
@@ -137,9 +156,9 @@ namespace WebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                //todo log exception
+                Console.WriteLine(ex);
             }
             return View(newBlogPostModel);
         }

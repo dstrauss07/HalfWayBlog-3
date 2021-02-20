@@ -25,10 +25,13 @@
     </div>
 
     <div class="form-group">
-        <textarea id="mainImageUpload" asp-for=@Model.BlogPost.BlogText class="form-control"> </textarea>
+        <label class="control-label">Main Image</label>
+        @*<img src=@Model.BlogPost.ImageUrl alt="Select an Image"/>*@
+        <textarea id="mainImageUpload" asp-for=@Model.BlogPost.ImageUrl class="form-control"> </textarea>
     </div>
 
     <div class="form-group">
+        <label class="control-label">Blog Post</label>
         <textarea id="blogPostTextArea" asp-for=@Model.BlogPost.BlogText class="form-control"> </textarea>
         <span asp-validation-for=@Model.BlogPost.BlogText class="text-danger"></span>
     </div>
@@ -49,6 +52,6 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" value="@ViewData["Action"]" class="btn btn-primary" />
+        <input type="submit" value="Submit Post" class="btn btn-primary" />
     </div>
 </form>

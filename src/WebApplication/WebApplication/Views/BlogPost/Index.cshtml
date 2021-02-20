@@ -42,6 +42,10 @@
                 }
             </td>
             <td>
+                @{var blogPostImgUrl = "https://localhost:44381/" + blogPost.ImageUrl;}
+                <img src="@blogPostImgUrl" alt="Select an Image" />
+            </td>
+            <td>
                 @foreach (BlogTagApplied blogTagApplied in Model.BlogTagsApplied)
                 {
                     if (@blogTagApplied.BlogPostId == @blogPost.BlogPostId)
