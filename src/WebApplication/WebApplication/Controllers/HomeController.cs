@@ -55,7 +55,7 @@ namespace WebApplication.Controllers
             return View(myHomeViewModel);
         }
 
-        public async Task<ActionResult> Detail(int id = 0)
+        public async Task<ActionResult> Details(int id = 0)
         {
             HomeViewModel myHomeViewModel = new HomeViewModel();
             IEnumerable<BlogPost> blogPostsToAdd = await _blogPostRepository.ListAllAsync();

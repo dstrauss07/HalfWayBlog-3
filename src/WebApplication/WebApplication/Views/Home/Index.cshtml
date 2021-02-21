@@ -6,64 +6,28 @@
 }
 
 <div class="text-center">
-    <h2 class="bg-dark text-light">Half Way To Mediocre</h2>
     <div class="row">
-        <div class="col-md-1"> </div>
-        <div class="col-md-10">
-            <div>
-                <h3 class="text-danger">@Model.BlogPost.BlogPostTitle</h3>
-                @foreach (Author author in Model.Authors)
-                {
-                    if (@author.AuthorId == @Model.BlogPost.AuthorId)
-                    {
-                        <h6>@author.AuthorName</h6>
-                    }
-                }
-            </div>
-            <div>
-                @foreach (BlogTagApplied blogTagApplied in Model.BlogTagsApplied)
-                {
-                    if (@blogTagApplied.BlogPostId == @Model.BlogPost.BlogPostId)
-                    {
-                        foreach (BlogTag blogTag in Model.BlogTags)
-                        {
-                            if (@blogTagApplied.BlogTagId == blogTag.BlogTagId)
-                            {
-                                <a>@blogTag.BlogTagName</a>
-                            }
-                        }
-                    }
-                }
-            </div>
-            <hr />
-            <div>
-                @Html.Raw(@Model.BlogPost.BlogText)
-            </div>
-
-            <hr />
-            @if (Model.BlogIndex > 0)
-            {
-                @Html.ActionLink("Previous", "Detail", new { id = Model.BlogPosts[Model.BlogIndex - 1].BlogPostId })
-            }
-            <span class="pl-5"></span>
-            @if (Model.BlogIndex < (Model.BlogPosts.Count - 1))
-            {
-                @Html.ActionLink("Next", "Detail", new { id = Model.BlogPosts[Model.BlogIndex + 1].BlogPostId })
-            }
-
-            <h3>Recent Articles</h3>
-            @for (int i = 0, j = 0; i < 5 && i < (Model.BlogPosts.Count - 1); i++)
-            {
-                if (Model.BlogPosts[j].BlogPostId == Model.BlogPost.BlogPostId)
-                {
-                    j++;
-                }
-                @Html.ActionLink(Model.BlogPosts[j].BlogPostTitle, "Detail", new { id = Model.BlogPosts[j].BlogPostId })
-                @:&#124;
-                j++;
-            }
+        <div class="col-8">
+            <img class="img-fluid" src="https://localhost:44381/images/HalfwayToMediocreGraphic.png" alt="image not found" />
         </div>
+        <div class="col-4">
+            <img class="img-fluid" src="https://localhost:44381/images/FamilyPhoto.jpg" alt="image not found" />
+            <label>We are Dave Strauss and Sandra Patton, founders and Editors of Halfway to Mediocre </label>
+        </div>
+        <hr />
+        @foreach (BlogPost blogPost in Model.BlogPosts)
+        {
+            <div class="col-4 mt-2 mb-2">
+                
+                @{var imgUrl = "https://localhost:44381/" + blogPost.ImageUrl; }
+                <a href="@(Url.Action("Details", new { id = blogPost.BlogPostId }))">
+                    <img class="img-fluid mainpage-image" src="@imgUrl" />
+                    <h5 class="image-caption">@blogPost.BlogPostTitle</h5>
+                </a>
+            </div>
+                    }
+
+
     </div>
-    <div class="col-md-1"> </div>
 </div>
 
