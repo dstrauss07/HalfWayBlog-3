@@ -28,30 +28,35 @@ namespace WebApplication.Controllers
             _blogTagAppliedRepository = blogTagAppliedRepository;
         }
 
-        public async Task<ActionResult> Index(int id = 0)
+        public async Task<ActionResult> Index(int tagId)
         {
             HomeViewModel myHomeViewModel = new HomeViewModel();
+
             IEnumerable<BlogPost> blogPostsToAdd = await _blogPostRepository.ListAllAsync();
             myHomeViewModel.BlogPosts = blogPostsToAdd.ToList();
             myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
             myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
-            if (myHomeViewModel.BlogPosts.Count == 0)
+            if (tagId == 0)
             {
-                BlogPost emptyBlogPost = new BlogPost();
-                myHomeViewModel.BlogPosts.Add(emptyBlogPost);
-            }
-            if (id == 0)
-            {
-                myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts[0];
-                myHomeViewModel.BlogIndex = 0;
+                myHomeViewModel.CategoryName = "All Blogs";
             }
             else
             {
-                myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts.FirstOrDefault(item => item.BlogPostId == id);
-                myHomeViewModel.BlogIndex = myHomeViewModel.BlogPosts.FindIndex(item => item.BlogPostId == id);
+                List<BlogTag> allBlogTags = myHomeViewModel.BlogTags.ToList();
+                BlogTag currentBlogTag = allBlogTags.Find(x => x.BlogTagId == tagId);
+                myHomeViewModel.CategoryName = currentBlogTag.BlogTagName + " Blogs";
+                List<BlogPost> updatedBlogPostList = new List<BlogPost>();
+                foreach(BlogTagApplied bta in myHomeViewModel.BlogTagsApplied)
+                {
+                    if(bta.BlogTagId == tagId)
+                    {
+                        updatedBlogPostList.Add(myHomeViewModel.BlogPosts.Find(x => x.BlogPostId == bta.BlogPostId));
+                    }
+                }
+                myHomeViewModel.BlogPosts = updatedBlogPostList;
             }
-
+            myHomeViewModel.BlogPosts.Reverse();
             return View(myHomeViewModel);
         }
 
@@ -73,7 +78,7 @@ namespace WebApplication.Controllers
                 myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts.FirstOrDefault(item => item.BlogPostId == id);
                 myHomeViewModel.BlogIndex = myHomeViewModel.BlogPosts.FindIndex(item => item.BlogPostId == id);
             }
-
+            myHomeViewModel.BlogPosts.Reverse();
             return View(myHomeViewModel);
         }
 

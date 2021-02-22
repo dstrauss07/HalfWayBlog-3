@@ -83,9 +83,17 @@ main{
 ----------------------------------------------------------------------------------------*/
 
 .image-caption{
-   color:blue;
+   color:black;
     }
 
 .mainpage-image{
     width: 80%;
+}
+
+.article-link:hover{
+    background: #e8ea30;
+}
+
+.article-link a{
+    text-decoration:none;
 }

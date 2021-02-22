@@ -6,7 +6,8 @@
 }
 
 <div class="text-center">
-    <h2 class="bg-dark text-light">Half Way To Mediocre</h2>
+    @*<h2 class="bg-dark text-light">Half Way To Mediocre</h2>*@
+    @Html.Partial("_TagList", Model, ViewData)
     <div class="row">
         <div class="col-md-1"> </div>
         <div class="col-md-10">
@@ -41,35 +42,89 @@
             </div>
 
             <hr />
-            @if (Model.BlogIndex > 0)
-            {
-                @Html.ActionLink("Previous", "Details", new { id = Model.BlogPosts[Model.BlogIndex - 1].BlogPostId })
-            }
-            else
-            {
-                @Html.ActionLink("Previous", "Details", new { id = Model.BlogPosts[Model.BlogPosts.Count - 1].BlogPostId })
-            }
-            <span class="pl-5"></span>
-            @if (Model.BlogIndex < (Model.BlogPosts.Count - 1))
-            {
-                @Html.ActionLink("Next", "Details", new { id = Model.BlogPosts[Model.BlogIndex + 1].BlogPostId })
-            }
-            else
-            {
-                @Html.ActionLink("Next", "Details", new { id = Model.BlogPosts[0].BlogPostId })
-            }
+            <div class="row ">
+                <div class="col-3"> </div>
+                <div class="col-3">
+                    @if (Model.BlogIndex > 0)
+                    {
+                        <div class="article-link">
+                            @{var imgUrl = "https://localhost:44381/" + Model.BlogPosts[Model.BlogIndex - 1].ImageUrl; }
+                            <a href="@(Url.Action("Details", new { id = Model.BlogPosts[Model.BlogIndex - 1].BlogPostId }))">
+                                <img class="img-fluid mainpage-image" src="@imgUrl" />
+                                <h5 class="image-caption">@Model.BlogPosts[Model.BlogIndex - 1].BlogPostTitle</h5>
+                            </a>
+                        </div>
+                        @*@Html.ActionLink("Previous", "Details", new { id = Model.BlogPosts[Model.BlogIndex - 1].BlogPostId })*@
+                    }
+                    else
+                    {
+                        <div class="article-link">
+                            @{var imgUrl = "https://localhost:44381/" + Model.BlogPosts[Model.BlogPosts.Count - 1].ImageUrl; }
+                            <a href="@(Url.Action("Details", new { id = Model.BlogPosts[Model.BlogPosts.Count - 1].BlogPostId }))">
+                                <img class="img-fluid mainpage-image" src="@imgUrl" />
+                                <h5 class="image-caption">@Model.BlogPosts[Model.BlogPosts.Count - 1].BlogPostTitle</h5>
+                            </a>
+                        </div>
+                        @*@Html.ActionLink("Previous", "Details", new { id = Model.BlogPosts[Model.BlogPosts.Count - 1].BlogPostId })*@
+                    }
+                </div>
+                <div class="col-3">
+                    @if (Model.BlogIndex < (Model.BlogPosts.Count - 1))
+                    {
+                        <div class="article-link pt-1 pb-1 mr-1 ml-1">
+                            @{var imgUrl = "https://localhost:44381/" + Model.BlogPosts[Model.BlogIndex + 1].ImageUrl; }
+                            <a href="@(Url.Action("Details", new { id = Model.BlogPosts[Model.BlogIndex + 1].BlogPostId }))">
+                                <img class="img-fluid mainpage-image" src="@imgUrl" />
+                                <h5 class="image-caption">@Model.BlogPosts[Model.BlogIndex + 1].BlogPostTitle</h5>
+                            </a>
+                        </div>
+                        @*@Html.ActionLink("Next", "Details", new { id = Model.BlogPosts[Model.BlogIndex + 1].BlogPostId })*@
+                    }
+                    else
+                    {
+                        <div class="article-link pt-1 pb-1 mr-1 ml-1">
+                            @{var imgUrl = "https://localhost:44381/" + Model.BlogPosts[0].ImageUrl; }
+                            <a href="@(Url.Action("Details", new { id = Model.BlogPosts[0].BlogPostId }))">
+                                <img class="img-fluid mainpage-image" src="@imgUrl" />
+                                <h5 class="image-caption">@Model.BlogPosts[0].BlogPostTitle</h5>
+                            </a>
+                        </div>
+                        @*@Html.ActionLink("Next", "Details", new { id = Model.BlogPosts[0].BlogPostId })*@
+                    }
+                </div>
+                <div class="col-3"> </div>
 
-            <h3>Recent Articles</h3>
-            @for (int i = 0, j = 0; i < 5 && i < (Model.BlogPosts.Count - 1); i++)
-            {
-                if (Model.BlogPosts[j].BlogPostId == Model.BlogPost.BlogPostId)
+            </div>
+
+            <h5>New Articles</h5>
+            <div class="row">
+                <div class="col-1"> </div>
+                @for (int i = 0, j = 0; i < 5 && i < (Model.BlogPosts.Count - 1); i++)
                 {
+                    if (Model.BlogPosts[j].BlogPostId == Model.BlogPost.BlogPostId)
+                    {
+                        j++;
+                    }
+                    <div class="col-2">
+                        @{var imgUrl = "https://localhost:44381/" + Model.BlogPosts[j].ImageUrl; }
+                        <a href="@(Url.Action("Details", new { id = Model.BlogPosts[j].BlogPostId }))">
+                            <img class="img-fluid mainpage-image" src="@imgUrl" />
+                            <h5 class="image-caption">@Model.BlogPosts[j].BlogPostTitle</h5>
+                        </a>
+
+                    </div>
+                    @*if (Model.BlogPosts[j].BlogPostId == Model.BlogPost.BlogPostId)
+                        {
+                            j++;
+                        }
+                        @Html.ActionLink(Model.BlogPosts[j].BlogPostTitle, "Details", new { id = Model.BlogPosts[j].BlogPostId })
+                        @:&#124;*@
                     j++;
                 }
-                @Html.ActionLink(Model.BlogPosts[j].BlogPostTitle, "Details", new { id = Model.BlogPosts[j].BlogPostId })
-                @:&#124;
-                j++;
-            }
+                <div class="col-1"> </div>
+
+            </div>
+
         </div>
     </div>
     <div class="col-md-1"> </div>
