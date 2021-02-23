@@ -54,7 +54,6 @@
                                 <h5 class="image-caption">@Model.BlogPosts[Model.BlogIndex - 1].BlogPostTitle</h5>
                             </a>
                         </div>
-                        @*@Html.ActionLink("Previous", "Details", new { id = Model.BlogPosts[Model.BlogIndex - 1].BlogPostId })*@
                     }
                     else
                     {
@@ -65,7 +64,6 @@
                                 <h5 class="image-caption">@Model.BlogPosts[Model.BlogPosts.Count - 1].BlogPostTitle</h5>
                             </a>
                         </div>
-                        @*@Html.ActionLink("Previous", "Details", new { id = Model.BlogPosts[Model.BlogPosts.Count - 1].BlogPostId })*@
                     }
                 </div>
                 <div class="col-3">
@@ -113,12 +111,6 @@
                         </a>
 
                     </div>
-                    @*if (Model.BlogPosts[j].BlogPostId == Model.BlogPost.BlogPostId)
-                        {
-                            j++;
-                        }
-                        @Html.ActionLink(Model.BlogPosts[j].BlogPostTitle, "Details", new { id = Model.BlogPosts[j].BlogPostId })
-                        @:&#124;*@
                     j++;
                 }
                 <div class="col-1"> </div>

@@ -9,39 +9,61 @@
     <div class="row">
         <div class="col-8">
             <img class="img-fluid" src="https://localhost:44381/images/HalfwayToMediocreGraphic.png" alt="image not found" />
-            <h4>@Model.CategoryName</h4>
+            @{var categoryName = ""; }
+            @if (Model.BlogTag == null)
+            {
+                categoryName = "All Blogs";
+            }
+            else
+            {
+                categoryName = Model.BlogTag.BlogTagName + " Blogs";
+            }
+
+            <h4>@categoryName</h4>
         </div>
         <div class="col-4">
             <img class="img-fluid" src="https://localhost:44381/images/FamilyPhoto.jpg" alt="image not found" />
             <label>We are Dave Strauss and Sandra Patton, founders and Editors of Halfway to Mediocre </label>
         </div>
         <hr />
-        @*@foreach (BlogPost blogPost in Model.BlogPosts)
+        @for (var i = 0; i < 6 && i < (Model.BlogPosts.Count - (6*Model.PageNum)); i++)
         {
+            var j = i + (6 * Model.PageNum);
             <div class="col-4 mt-2 mb-2">
                 <div class="article-link pt-1 pb-1 mr-1 ml-1">
-                    @{var imgUrl = "https://localhost:44381/" + blogPost.ImageUrl; }
-                    <a href="@(Url.Action("Details", new { id = blogPost.BlogPostId }))">
+                    @{var imgUrl = "https://localhost:44381/" + Model.BlogPosts[j].ImageUrl; }
+                    <a href="@(Url.Action("Details", new { id = Model.BlogPosts[j].BlogPostId }))">
                         <img class="img-fluid mainpage-image" src="@imgUrl" />
-                        <h5 class="image-caption">@blogPost.BlogPostTitle</h5>
-                    </a>
-                </div>
-            </div>
-        }*@
-        @for (var i = 0; i < 6; i++)
-        {
-            <div class="col-4 mt-2 mb-2">
-                <div class="article-link pt-1 pb-1 mr-1 ml-1">
-                    @{var imgUrl = "https://localhost:44381/" + Model.BlogPosts[i].ImageUrl; }
-                    <a href="@(Url.Action("Details", new { id = Model.BlogPosts[i].BlogPostId }))">
-                        <img class="img-fluid mainpage-image" src="@imgUrl" />
-                        <h5 class="image-caption">@Model.BlogPosts[i].BlogPostTitle</h5>
+                        <h5 class="image-caption">@Model.BlogPosts[j].BlogPostTitle</h5>
                     </a>
                 </div>
             </div>
         }
 
+    </div>
+    @{ var blogTagId = 0;} 
+    @if(Model.BlogTag != null)
+    {
+        blogTagId = Model.BlogTag.BlogTagId;
+    }
+    <div class="row">
+        <div class="col-5"> </div>
+        <div class="col-1">
+            @if (Model.PageNum > 0)
+            {
+             <a href="@Url.Action("Index", new { tagId = blogTagId, pageNum = Model.PageNum -1 }))" class="btn text-center">&#x2190;</a>
+            }
+        </div>
+        <div class="col-1">
+            @if (Model.BlogPosts.Count > ((6 * Model.PageNum) + 6))
+            {
+                <a href="@(Url.Action("Index", new { tagId = blogTagId, pageNum = Model.PageNum +1 }))" class="btn text-center">&#x2192;</a>
+            }
 
+        </div>
+        <div class="col-5"></div>
     </div>
 </div>
+
+
 

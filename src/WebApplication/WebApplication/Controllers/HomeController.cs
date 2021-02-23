@@ -28,7 +28,7 @@ namespace WebApplication.Controllers
             _blogTagAppliedRepository = blogTagAppliedRepository;
         }
 
-        public async Task<ActionResult> Index(int tagId)
+        public async Task<ActionResult> Index(int tagId,int pageNum)
         {
             HomeViewModel myHomeViewModel = new HomeViewModel();
 
@@ -37,15 +37,15 @@ namespace WebApplication.Controllers
             myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
             myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
+            myHomeViewModel.PageNum = pageNum;
             if (tagId == 0)
             {
-                myHomeViewModel.CategoryName = "All Blogs";
+                myHomeViewModel.BlogTag = null;
             }
             else
             {
                 List<BlogTag> allBlogTags = myHomeViewModel.BlogTags.ToList();
-                BlogTag currentBlogTag = allBlogTags.Find(x => x.BlogTagId == tagId);
-                myHomeViewModel.CategoryName = currentBlogTag.BlogTagName + " Blogs";
+                myHomeViewModel.BlogTag = allBlogTags.Find(x => x.BlogTagId == tagId);
                 List<BlogPost> updatedBlogPostList = new List<BlogPost>();
                 foreach(BlogTagApplied bta in myHomeViewModel.BlogTagsApplied)
                 {
