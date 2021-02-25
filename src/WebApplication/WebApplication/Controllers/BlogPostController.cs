@@ -79,8 +79,8 @@ namespace WebApplication.Controllers
                     return View(newBlogPostModel);
                 }
                 BlogPost newBlogPost = newBlogPostModel.BlogPost;
-                newBlogPost.PostDate = System.DateTime.Now;
-                newBlogPost.ModifiedDate = System.DateTime.Now;
+                newBlogPost.PostDate = DateTime.Now;
+                newBlogPost.ModifiedDate = DateTime.Now;
                 await _blogPostRepository.AddAsync(newBlogPost);
                 var editId = newBlogPostModel.BlogPost.BlogPostId;
                 return RedirectToAction("Edit", new { id = editId });

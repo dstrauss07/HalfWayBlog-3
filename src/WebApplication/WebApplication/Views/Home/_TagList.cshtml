@@ -20,6 +20,10 @@
                     </li>
                 }
             </ul>
+            <form class="form-inline" asp-action="Index">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" asp-for=@Model.searchString>
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit" value="searchString">Search</button>
+            </form>
         </div>
     </div>
 </nav>

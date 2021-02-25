@@ -9,6 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApplication.Models;
 using WebApplication.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace WebApplication.Controllers
 {
@@ -28,10 +30,9 @@ namespace WebApplication.Controllers
             _blogTagAppliedRepository = blogTagAppliedRepository;
         }
 
-        public async Task<ActionResult> Index(int tagId,int pageNum)
+        public async Task<ActionResult> Index(int tagId,int pageNum,string searchString)
         {
             HomeViewModel myHomeViewModel = new HomeViewModel();
-
             IEnumerable<BlogPost> blogPostsToAdd = await _blogPostRepository.ListAllAsync();
             myHomeViewModel.BlogPosts = blogPostsToAdd.ToList();
             myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
@@ -44,17 +45,7 @@ namespace WebApplication.Controllers
             }
             else
             {
-                List<BlogTag> allBlogTags = myHomeViewModel.BlogTags.ToList();
-                myHomeViewModel.BlogTag = allBlogTags.Find(x => x.BlogTagId == tagId);
-                List<BlogPost> updatedBlogPostList = new List<BlogPost>();
-                foreach(BlogTagApplied bta in myHomeViewModel.BlogTagsApplied)
-                {
-                    if(bta.BlogTagId == tagId)
-                    {
-                        updatedBlogPostList.Add(myHomeViewModel.BlogPosts.Find(x => x.BlogPostId == bta.BlogPostId));
-                    }
-                }
-                myHomeViewModel.BlogPosts = updatedBlogPostList;
+                GetTags(tagId, myHomeViewModel);
             }
             myHomeViewModel.BlogPosts.Reverse();
             return View(myHomeViewModel);
@@ -68,6 +59,7 @@ namespace WebApplication.Controllers
             myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
             myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
+            myHomeViewModel.BlogPosts.Reverse();
             if (id == 0)
             {
                 myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts[0];
@@ -78,8 +70,7 @@ namespace WebApplication.Controllers
                 myHomeViewModel.BlogPost = myHomeViewModel.BlogPosts.FirstOrDefault(item => item.BlogPostId == id);
                 myHomeViewModel.BlogIndex = myHomeViewModel.BlogPosts.FindIndex(item => item.BlogPostId == id);
             }
-            myHomeViewModel.BlogPosts.Reverse();
-            return View(myHomeViewModel);
+             return View(myHomeViewModel);
         }
 
         public IActionResult Privacy()
@@ -91,6 +82,21 @@ namespace WebApplication.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private static void GetTags(int tagId, HomeViewModel myHomeViewModel)
+        {
+            List<BlogTag> allBlogTags = myHomeViewModel.BlogTags.ToList();
+            myHomeViewModel.BlogTag = allBlogTags.Find(x => x.BlogTagId == tagId);
+            List<BlogPost> updatedBlogPostList = new List<BlogPost>();
+            foreach (BlogTagApplied bta in myHomeViewModel.BlogTagsApplied)
+            {
+                if (bta.BlogTagId == tagId)
+                {
+                    updatedBlogPostList.Add(myHomeViewModel.BlogPosts.Find(x => x.BlogPostId == bta.BlogPostId));
+                }
+            }
+            myHomeViewModel.BlogPosts = updatedBlogPostList;
         }
     }
 }

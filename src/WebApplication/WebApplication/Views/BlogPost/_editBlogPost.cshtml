@@ -5,6 +5,7 @@
 <form asp-action="@ViewData["Action"]">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input hidden id="post_ID" asp-for=@Model.BlogPost.BlogPostId />
+    <input hidden asp-for=@Model.BlogPost.PostDate />
     <div class="row">
         <div class="col-6">
             <div class="form-group">

@@ -16,5 +16,6 @@ namespace WebApplication.ViewModels
         public IEnumerable<BlogTagApplied> BlogTagsApplied { get; set; }
         public BlogTag BlogTag { get; set; }
         public int PageNum { get; set; }
+        public String searchString { get; set; }
     }
 }
