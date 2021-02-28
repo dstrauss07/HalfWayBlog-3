@@ -9,8 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApplication.Models;
 using WebApplication.ViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
+using System;
+using WebApplication.Methods;
 
 namespace WebApplication.Controllers
 {
@@ -39,13 +39,18 @@ namespace WebApplication.Controllers
             myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
             myHomeViewModel.PageNum = pageNum;
-            if (tagId == 0)
+            if(searchString != null)
+            {
+                myHomeViewModel.BlogTag = null;
+                myHomeViewModel.BlogPosts = SearchPosts.GetPostsBySearchString(searchString, myHomeViewModel);
+            }
+            else if (tagId == 0 )
             {
                 myHomeViewModel.BlogTag = null;
             }
             else
             {
-                GetTags(tagId, myHomeViewModel);
+                GetPostsByTag(tagId, myHomeViewModel);
             }
             myHomeViewModel.BlogPosts.Reverse();
             return View(myHomeViewModel);
@@ -84,7 +89,7 @@ namespace WebApplication.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private static void GetTags(int tagId, HomeViewModel myHomeViewModel)
+        private static void GetPostsByTag(int tagId, HomeViewModel myHomeViewModel)
         {
             List<BlogTag> allBlogTags = myHomeViewModel.BlogTags.ToList();
             myHomeViewModel.BlogTag = allBlogTags.Find(x => x.BlogTagId == tagId);
@@ -98,5 +103,6 @@ namespace WebApplication.Controllers
             }
             myHomeViewModel.BlogPosts = updatedBlogPostList;
         }
+
     }
 }
