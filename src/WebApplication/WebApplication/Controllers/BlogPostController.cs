@@ -9,22 +9,27 @@ using System.Collections.Generic;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 namespace WebApplication.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class BlogPostController : Controller
     {
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly IBlogTagRepository _blogTagRepository;
         private readonly IBlogTagAppliedRepository _blogTagAppliedRepository;
+        private readonly IOptions<AppSettings> _appSettings;
 
-        public BlogPostController(IBlogPostRepository blogPostRepository, IAuthorRepository authorRepository, IBlogTagRepository blogTagRepository, IBlogTagAppliedRepository blogTagAppliedRepository)
+        public BlogPostController(IBlogPostRepository blogPostRepository, IAuthorRepository authorRepository, IBlogTagRepository blogTagRepository, IBlogTagAppliedRepository blogTagAppliedRepository, IOptions<AppSettings> appSettings)
         {
             _blogPostRepository = blogPostRepository;
             _authorRepository = authorRepository;
             _blogTagRepository = blogTagRepository;
             _blogTagAppliedRepository = blogTagAppliedRepository;
+            _appSettings = appSettings;
         }
         // GET: AuthorController
         public async Task<ActionResult> Index()
@@ -35,6 +40,7 @@ namespace WebApplication.Controllers
             myPostListViewModel.Authors = await _authorRepository.ListAllAsync();
             myPostListViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myPostListViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
+            myPostListViewModel.SiteUrl = _appSettings.Value.SiteUrl;
             return View(myPostListViewModel);
         }
 
@@ -45,6 +51,7 @@ namespace WebApplication.Controllers
             myPostDetailViewModel.BlogPost = await _blogPostRepository.GetByIdAsync(id);
             int authorId = myPostDetailViewModel.BlogPost.AuthorId;
             myPostDetailViewModel.Author = await _authorRepository.GetByIdAsync(authorId);
+            myPostDetailViewModel.SiteUrl = _appSettings.Value.SiteUrl;     
             List<BlogTag> blogTagsFinalList = new List<BlogTag>();
             List<BlogTagApplied> blogTagsForThisPost = await _blogTagAppliedRepository.GetAllByPostId(id,false);
             foreach (BlogTagApplied blogTagApplied in blogTagsForThisPost)
@@ -61,6 +68,7 @@ namespace WebApplication.Controllers
             PostEditViewModel myPostEditViewModel = new PostEditViewModel();
             myPostEditViewModel.BlogPost = new BlogPost();
             myPostEditViewModel.Authors = await _authorRepository.ListAllAsync();
+            myPostEditViewModel.SiteUrl = _appSettings.Value.SiteUrl;
             IEnumerable<BlogTag> blogTagsToAdd = await _blogTagRepository.ListAllAsync();
             myPostEditViewModel.BlogTags = blogTagsToAdd.ToList();
      //       myPostEditViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
@@ -100,7 +108,8 @@ namespace WebApplication.Controllers
             myPostEditViewModel.Authors = await _authorRepository.ListAllAsync();
             IEnumerable<BlogTag> blogTagsToAdd = await _blogTagRepository.ListAllAsync();
             myPostEditViewModel.BlogTags = blogTagsToAdd.ToList();
-            foreach(BlogTag b in myPostEditViewModel.BlogTags)
+            myPostEditViewModel.SiteUrl = _appSettings.Value.SiteUrl;
+            foreach (BlogTag b in myPostEditViewModel.BlogTags)
             {
                 if(await _blogTagAppliedRepository.IsBlogTagApplied(id,b.BlogTagId))
                 {
@@ -170,6 +179,7 @@ namespace WebApplication.Controllers
             PostDetailViewModel myPostDetailViewModel = new PostDetailViewModel();
             myPostDetailViewModel.BlogPost = await _blogPostRepository.GetByIdAsync(id);
             int authorId = myPostDetailViewModel.BlogPost.AuthorId;
+            myPostDetailViewModel.SiteUrl = _appSettings.Value.SiteUrl;
             myPostDetailViewModel.Author = await _authorRepository.GetByIdAsync(authorId);
             List<BlogTag> blogTagsFinalList = new List<BlogTag>();
             List<BlogTagApplied> blogTagsForThisPost = await _blogTagAppliedRepository.GetAllByPostId(id, false);

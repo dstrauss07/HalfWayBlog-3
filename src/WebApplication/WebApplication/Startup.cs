@@ -27,20 +27,21 @@ namespace WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
             services.AddDbContext<BlogDbContext>(options =>
-    options.UseSqlServer(
-        Configuration.GetConnectionString("DefaultConnection")));
+                 options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddScoped<IAuthorRepository, AuthorEFRepository>();
             services.AddScoped<IBlogPostRepository, BlogPostEFRepository>();
             services.AddScoped<IBlogTagRepository, BlogTagEfRepository>();
             services.AddScoped<IBlogTagAppliedRepository, BlogTagAppliedEfRepository>();
+
+            services.Configure<AppSettings>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

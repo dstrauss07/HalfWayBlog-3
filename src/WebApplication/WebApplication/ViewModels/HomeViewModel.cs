@@ -17,5 +17,6 @@ namespace WebApplication.ViewModels
         public BlogTag BlogTag { get; set; }
         public int PageNum { get; set; }
         public String searchString { get; set; }
+        public string SiteUrl { get; set; }
     }
 }

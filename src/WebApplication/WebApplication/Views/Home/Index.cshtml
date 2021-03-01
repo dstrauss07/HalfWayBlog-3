@@ -8,7 +8,8 @@
 <div class="text-center">
     <div class="row">
         <div class="col-8">
-            <img class="img-fluid" src="https://localhost:44381/images/HalfwayToMediocreGraphic.png" alt="image not found" />
+            @{var mainGraphic = Model.SiteUrl + "images/HalfwayToMediocreGraphic.png"; }
+            <img class="img-fluid" src=@mainGraphic alt="image not found" />
             @{var categoryName = ""; }
             @if (Model.BlogTag == null)
             {
@@ -22,8 +23,11 @@
             <h4>@categoryName</h4>
         </div>
         <div class="col-4">
-            <img class="img-fluid" src="https://localhost:44381/images/FamilyPhoto.jpg" alt="image not found" />
-            <label>We are Dave Strauss and Sandra Patton, founders and Editors of Halfway to Mediocre </label>
+            <a asp-area="" asp-controller="Home" asp-action="About">
+                @{var familyImg = Model.SiteUrl + "images/FamilyPhoto.jpg"; }
+                <img class="img-fluid" src=@familyImg alt="image not found" />
+                <label>Welcome to Halfway to Mediocre!</label>
+            </a>
         </div>
         <hr />
         @for (var i = 0; i < 6 && i < (Model.BlogPosts.Count - (6*Model.PageNum)); i++)
@@ -31,7 +35,7 @@
             var j = i + (6 * Model.PageNum);
             <div class="col-4 mt-2 mb-2">
                 <div class="article-link pt-1 pb-1 mr-1 ml-1">
-                    @{var imgUrl = "https://localhost:44381/" + Model.BlogPosts[j].ImageUrl; }
+                    @{var imgUrl = Model.SiteUrl + Model.BlogPosts[j].ImageUrl; }
                     <a href="@(Url.Action("Details", new { id = Model.BlogPosts[j].BlogPostId }))">
                         <img class="img-fluid mainpage-image" src="@imgUrl" />
                         <h5 class="image-caption">@Model.BlogPosts[j].BlogPostTitle</h5>

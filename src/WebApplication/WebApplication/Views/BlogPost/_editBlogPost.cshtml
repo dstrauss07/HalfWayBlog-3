@@ -29,7 +29,7 @@
                 <div class="col-6">
                     <label class="control-label">Current Image</label>
                     <br />
-                    @{var blogPostImgUrl = "https://localhost:44381/" + @Model.BlogPost.ImageUrl;}
+                    @{var blogPostImgUrl = Model.SiteUrl + @Model.BlogPost.ImageUrl;}
                     <img style="width:100px;height:auto" src=@blogPostImgUrl alt="No Image Uploaded" />
                 </div>
                 <div class="col-6">

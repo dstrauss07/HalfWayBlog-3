@@ -4,9 +4,11 @@ using BlogLibrary;
 using DataAccessLayer.Interfaces;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AuthorController : Controller
     {
         private readonly IAuthorRepository _authorRepository;

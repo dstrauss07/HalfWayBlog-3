@@ -13,21 +13,29 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApplication.Models;
 using BlogLibrary;
+using Microsoft.AspNetCore.Authorization;
+using WebApplication;
+using Microsoft.Extensions.Options;
 
 namespace WebApplication.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     [Route("api/images")]
     [ApiController]
     public class ImageController : Controller
     {
         private readonly IBlogPostRepository _blogPostRepository;
-        public ImageController(IBlogPostRepository blogPostRepository)
+        private readonly IOptions<AppSettings> _appSettings;
+
+        public ImageController(IBlogPostRepository blogPostRepository, IOptions<AppSettings> appSettings)
         {
             _blogPostRepository = blogPostRepository;
+            _appSettings = appSettings;
         }
 
-            [HttpPost]
-        public async Task<ActionResult> UploadImage(FileUploadModel upload)
+
+        [HttpPost]
+        public ActionResult UploadImage(FileUploadModel upload)
         {
             if (upload == null) return null;
             if (new FileExtensionContentTypeProvider().TryGetContentType(upload.FileName, out var contentType))
@@ -45,20 +53,11 @@ namespace WebApplication.Controllers
                     {
                         string extension = fileName.Substring(fileName.IndexOf(@".") + 1);
                         fileName = "Main." + extension;
-                    
-                    
                     }
                     string imgPath = Path.Combine(path, fileName);
-
                     System.IO.File.WriteAllBytes(imgPath, upload.FileBytes);
-                    string imageUrl = "https://localhost:44381/images/"+ upload.imagePostId.ToString() + "/" + fileName;
-                    //if (upload.isMain)
-                    //{
-                    //    BlogPost blogPostToUpdate = await _blogPostRepository.GetByIdAsync(upload.imagePostId);
-                    //    blogPostToUpdate.ImageUrl = imageUrl;
-                    //    await _blogPostRepository.UpdateAsync(blogPostToUpdate);
-                    //}
-                        return Ok(new { imageUrl });
+                    string imageUrl = _appSettings.Value.SiteUrl + "/images/" + upload.imagePostId.ToString() + "/" + fileName;
+                    return Ok(new { imageUrl });
                 }
                 else
                 {

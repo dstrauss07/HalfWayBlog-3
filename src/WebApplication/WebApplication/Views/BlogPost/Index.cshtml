@@ -45,7 +45,7 @@
                 }
             </td>
             <td>
-                @{var blogPostImgUrl = "https://localhost:44381/" + blogPost.ImageUrl;}
+                @{var blogPostImgUrl = Model.SiteUrl + blogPost.ImageUrl;}
                 <img style="height:50px;width:auto" src="@blogPostImgUrl" alt="Select an Image" />
             </td>
             <td>

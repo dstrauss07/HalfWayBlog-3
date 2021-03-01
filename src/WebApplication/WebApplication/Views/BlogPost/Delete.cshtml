@@ -27,7 +27,7 @@
             @Html.DisplayFor(model => model.Author.AuthorName)
         </dd>
         <dd class="col-sm-4 bg-white">
-            @{var blogPostImgUrl = "https://localhost:44381/" + Model.BlogPost.ImageUrl;}
+            @{var blogPostImgUrl = Model.SiteUrl + Model.BlogPost.ImageUrl;}
             <img style="height:100px;width:auto" src="@blogPostImgUrl" alt="Select an Image" />
         </dd>
         <dt class="col-sm-12">

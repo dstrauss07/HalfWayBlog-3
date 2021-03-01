@@ -11,6 +11,7 @@ using WebApplication.Models;
 using WebApplication.ViewModels;
 using System;
 using WebApplication.Methods;
+using Microsoft.Extensions.Options;
 
 namespace WebApplication.Controllers
 {
@@ -21,13 +22,15 @@ namespace WebApplication.Controllers
         private readonly IAuthorRepository _authorRepository;
         private readonly IBlogTagRepository _blogTagRepository;
         private readonly IBlogTagAppliedRepository _blogTagAppliedRepository;
-        public HomeController(ILogger<HomeController> logger, IBlogPostRepository blogPostRepository, IAuthorRepository authorRepository, IBlogTagRepository blogTagRepository, IBlogTagAppliedRepository blogTagAppliedRepository)
+        private readonly IOptions<AppSettings> _appSettings;
+        public HomeController(ILogger<HomeController> logger, IBlogPostRepository blogPostRepository, IAuthorRepository authorRepository, IBlogTagRepository blogTagRepository, IBlogTagAppliedRepository blogTagAppliedRepository, IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _blogPostRepository = blogPostRepository;
             _authorRepository = authorRepository;
             _blogTagRepository = blogTagRepository;
             _blogTagAppliedRepository = blogTagAppliedRepository;
+            _appSettings = appSettings;
         }
 
         public async Task<ActionResult> Index(int tagId,int pageNum,string searchString)
@@ -38,8 +41,10 @@ namespace WebApplication.Controllers
             myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
             myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
+            myHomeViewModel.SiteUrl = _appSettings.Value.SiteUrl;
             myHomeViewModel.PageNum = pageNum;
-            if(searchString != null)
+            myHomeViewModel.BlogPosts.Reverse();
+            if (searchString != null)
             {
                 myHomeViewModel.BlogTag = null;
                 myHomeViewModel.BlogPosts = SearchPosts.GetPostsBySearchString(searchString, myHomeViewModel);
@@ -52,7 +57,6 @@ namespace WebApplication.Controllers
             {
                 GetPostsByTag(tagId, myHomeViewModel);
             }
-            myHomeViewModel.BlogPosts.Reverse();
             return View(myHomeViewModel);
         }
 
@@ -64,6 +68,7 @@ namespace WebApplication.Controllers
             myHomeViewModel.Authors = await _authorRepository.ListAllAsync();
             myHomeViewModel.BlogTags = await _blogTagRepository.ListAllAsync();
             myHomeViewModel.BlogTagsApplied = await _blogTagAppliedRepository.ListAllAsync();
+            myHomeViewModel.SiteUrl = _appSettings.Value.SiteUrl;
             myHomeViewModel.BlogPosts.Reverse();
             if (id == 0)
             {
@@ -79,6 +84,11 @@ namespace WebApplication.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult About()
         {
             return View();
         }
