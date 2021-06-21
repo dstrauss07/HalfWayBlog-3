@@ -9,7 +9,9 @@ using WebApplication.Data;
 using DataAccessLayer;
 using DataAccessLayer.EFRepos;
 using DataAccessLayer.Interfaces;
-
+using Microsoft.AspNetCore.Identity.UI.Services;
+using WebApplication.Services;
+//using WebPWrecover.Services;
 
 namespace WebApplication
 {
@@ -33,12 +35,11 @@ namespace WebApplication
             services.AddDbContext<BlogDbContext>(options =>
                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
-
-
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                        services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                  .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
             services.AddScoped<IAuthorRepository, AuthorEFRepository>();
             services.AddScoped<IBlogPostRepository, BlogPostEFRepository>();
