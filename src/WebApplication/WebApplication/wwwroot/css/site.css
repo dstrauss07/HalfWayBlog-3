@@ -1,5 +1,23 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+/*@import url('https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=Architects+Daughter&family=Lato:wght@300&family=Shippori+Mincho+B1:wght@600&display=swap');*/
+
+@font-face {
+    font-family: 'Architects Daughter';
+    src: url('Fonts/ArchitectsDaughter-Regular.ttf'); /* IE9 Compat Modes */
+    src: url('Fonts/ArchitectsDaughter-Regular.ttf') format('embedded-opentype'), /* IE6-IE8 */
+    url('Fonts/ArchitectsDaughter-Regular.ttf') format('woff'), /* Modern Browsers */
+    url('Fonts/ArchitectsDaughter-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('Fonts/ArchitectsDaughter-Regular.ttf') format('svg'); /* Legacy iOS */
+}
+@font-face {
+    font-family: 'Lato';
+    src: url('Fonts/Lato-Light.ttf'); /* IE9 Compat Modes */
+    src: url('Fonts/Lato-Light.ttf') format('embedded-opentype'), /* IE6-IE8 */
+    url('Fonts/Lato-Light.ttf') format('woff'), /* Modern Browsers */
+    url('Fonts/Lato-Light.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('Fonts/Lato-Light.ttf') format('svg'); /* Legacy iOS */
+}
 
 a.navbar-brand {
     white-space: normal;
@@ -27,7 +45,6 @@ a {
 }
 
 
-@import url('https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=Architects+Daughter&family=Lato:wght@300&family=Shippori+Mincho+B1:wght@600&display=swap');
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
