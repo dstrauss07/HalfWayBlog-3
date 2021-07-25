@@ -11,13 +11,17 @@
             @{var mainGraphic = Model.SiteUrl + "images/HalfwayToMediocreGraphic.png"; }
             <img class="img-fluid" src=@mainGraphic alt="image not found" />
             @{var categoryName = ""; }
-            @if (Model.BlogTag == null)
+            @if (Model.BlogTag == null  && Model.searchString == null)
             {
                 categoryName = "All Blogs";
             }
-            else
-            {
+            else if (Model.searchString == null)
+            { 
                 categoryName = Model.BlogTag.BlogTagName + " Blogs";
+            }
+             else
+            {
+                categoryName = Model.searchString + " Blogs";
             }
 
             <h4>@categoryName</h4>

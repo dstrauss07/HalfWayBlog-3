@@ -48,6 +48,7 @@ namespace WebApplication.Controllers
             {
                 myHomeViewModel.BlogTag = null;
                 myHomeViewModel.BlogPosts = SearchPosts.GetPostsBySearchString(searchString, myHomeViewModel);
+                myHomeViewModel.searchString = searchString;
             }
             else if (tagId == 0 )
             {

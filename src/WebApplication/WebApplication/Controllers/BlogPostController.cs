@@ -196,22 +196,31 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
+            var deletedBlogPost = await _blogPostRepository.GetByIdAsync(id);
+            String postUrl = "wwwroot/images/" + deletedBlogPost.BlogPostId.ToString() + "/";
+            var DirectoryToDelete = Path.Combine(Directory.GetCurrentDirectory(), postUrl);
+
             try
             {
-                var deletedBlogPost = await _blogPostRepository.GetByIdAsync(id);
-                String postUrl = "wwwroot/images/" + deletedBlogPost.BlogPostId.ToString() + "/";
-                var DirectoryToDelete = Path.Combine(Directory.GetCurrentDirectory(), postUrl);
+
                 Directory.Delete(DirectoryToDelete, true);
-                await _blogPostRepository.DeleteAsync(deletedBlogPost);
-                await _blogTagAppliedRepository.GetAllByPostId(deletedBlogPost.BlogPostId, true);
-                return RedirectToAction(nameof(Index));
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex);
                 // var notDeletedBlogPost = await _blogPostRepository.GetByIdAsync(id);
                 //PostDetailViewModel myPostDetailViewModel = new PostDetailViewModel();
-             return await Delete(id);
+            }
+            try
+            {
+                await _blogPostRepository.DeleteAsync(deletedBlogPost);
+                await _blogTagAppliedRepository.GetAllByPostId(deletedBlogPost.BlogPostId, true);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return await Delete(id);
             }
         }
 
