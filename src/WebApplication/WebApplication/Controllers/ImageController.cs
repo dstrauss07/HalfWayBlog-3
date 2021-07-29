@@ -1,20 +1,11 @@
 ﻿using DataAccessLayer.Interfaces;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebApplication.Models;
-using BlogLibrary;
 using Microsoft.AspNetCore.Authorization;
-using WebApplication;
 using Microsoft.Extensions.Options;
 
 namespace WebApplication.Controllers
