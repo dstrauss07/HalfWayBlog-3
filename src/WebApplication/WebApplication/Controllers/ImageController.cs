@@ -7,6 +7,8 @@ using System.IO;
 using WebApplication.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace WebApplication.Controllers
 {
@@ -46,7 +48,10 @@ namespace WebApplication.Controllers
                         fileName = "Main." + extension;
                     }
                     string imgPath = Path.Combine(path, fileName);
-                    System.IO.File.WriteAllBytes(imgPath, upload.FileBytes);
+                    using var imageUpload = Image.Load(upload.FileBytes);
+                    imageUpload.Mutate(x => x.Resize(1200, 800));
+                    imageUpload.Save(imgPath);
+                 //   System.IO.File.WriteAllBytes(imgPath, imageUpload.Metadata);
                     string imageUrl = _appSettings.Value.SiteUrl + "/images/" + upload.imagePostId.ToString() + "/" + fileName;
                     return Ok(new { imageUrl });
                 }
