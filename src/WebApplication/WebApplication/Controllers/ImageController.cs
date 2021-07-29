@@ -26,7 +26,6 @@ namespace WebApplication.Controllers
             _appSettings = appSettings;
         }
 
-
         [HttpPost]
         public ActionResult UploadImage(FileUploadModel upload)
         {
@@ -49,17 +48,31 @@ namespace WebApplication.Controllers
                     }
                     string imgPath = Path.Combine(path, fileName);
                     using var imageUpload = Image.Load(upload.FileBytes);
-                    if(imageUpload.Width >= imageUpload.Height)
-                    {
-                        imageUpload.Mutate(x => x.Resize(1200, 800));
+                    if (upload.isMain)
+                    {                   
+                         imageUpload.Mutate(x => x.Resize(1200, 800));
                     }
                     else
                     {
-                        imageUpload.Mutate(x => x.Resize(533, 800));
+                        if (imageUpload.Width > 2000 || imageUpload.Height > 2000)
+                        {
+                            var origWidth = imageUpload.Width;
+                            var origHeight = imageUpload.Height;
+                            if (origWidth >= origHeight)
+                            {
+                                var updatedHeight = (2000 / origWidth) * origHeight;
+                                imageUpload.Mutate(x => x.Resize(2000, updatedHeight));
+                            }
+                            else
+                            {
+                                var updatedWidth = (2000 / origHeight) * origWidth;
+                                imageUpload.Mutate(x => x.Resize(updatedWidth, 2000));
+                            }
+                        }
                     }
 
                     imageUpload.Save(imgPath);
-                 //   System.IO.File.WriteAllBytes(imgPath, imageUpload.Metadata);
+                    //   System.IO.File.WriteAllBytes(imgPath, imageUpload.Metadata);
                     string imageUrl = _appSettings.Value.SiteUrl + "/images/" + upload.imagePostId.ToString() + "/" + fileName;
                     return Ok(new { imageUrl });
                 }
