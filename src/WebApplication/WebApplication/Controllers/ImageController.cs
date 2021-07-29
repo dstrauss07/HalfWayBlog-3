@@ -49,7 +49,15 @@ namespace WebApplication.Controllers
                     }
                     string imgPath = Path.Combine(path, fileName);
                     using var imageUpload = Image.Load(upload.FileBytes);
-                    imageUpload.Mutate(x => x.Resize(1200, 800));
+                    if(imageUpload.Width >= imageUpload.Height)
+                    {
+                        imageUpload.Mutate(x => x.Resize(1200, 800));
+                    }
+                    else
+                    {
+                        imageUpload.Mutate(x => x.Resize(533, 800));
+                    }
+
                     imageUpload.Save(imgPath);
                  //   System.IO.File.WriteAllBytes(imgPath, imageUpload.Metadata);
                     string imageUrl = _appSettings.Value.SiteUrl + "/images/" + upload.imagePostId.ToString() + "/" + fileName;
